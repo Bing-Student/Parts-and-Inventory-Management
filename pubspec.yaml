@@ -15,6 +15,7 @@ dependencies:
   shared_preferences: ^2.2.15 # <--- MOVED HERE (ensure correct version if you want latest)
   google_fonts: ^6.1.0
   url_launcher: ^6.0.0
+  fl_chart: ^0.68.0
 
 dev_dependencies:
   flutter_test:

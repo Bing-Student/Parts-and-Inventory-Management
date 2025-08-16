@@ -135,20 +135,40 @@ class _MyAppState extends State<MyApp> {
         },
       ),
       onGenerateRoute: (settings) {
-        switch (settings.name) {
-          case '/intro':
-            return MaterialPageRoute(builder: (context) => const IntroScreen());
-          case '/welcome':
-            return MaterialPageRoute(builder: (context) => _buildWelcomeScreen(context));
-          case '/signin':
-            return MaterialPageRoute(builder: (context) => _buildSignInScreen(context));
-          case '/signup':
-            return MaterialPageRoute(builder: (context) => _buildSignUpScreen(context));
-          case '/dashboard':
-            return MaterialPageRoute(builder: (context) => const DashboardScreen());
-          default:
-            return MaterialPageRoute(builder: (context) => const IntroScreen());
-        }
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // Handle route with parameters
+            final uri = Uri.parse(settings.name ?? '');
+            final path = uri.path.isEmpty ? '/' : uri.path;
+            
+            switch (path) {
+              case '/intro':
+                return const IntroScreen();
+              case '/welcome':
+                return _buildWelcomeScreen(context);
+              case '/signin':
+                return _buildSignInScreen(context);
+              case '/signup':
+                final fromWelcome = uri.queryParameters['fromWelcome'] == 'true';
+                return _buildSignUpScreen(context, showBackButton: !fromWelcome);
+              case '/dashboard':
+                return const DashboardScreen();
+              default:
+                return const IntroScreen();
+            }
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = 0.0;
+            const end = 1.0;
+            var curve = Curves.easeInOut;
+            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            return FadeTransition(
+              opacity: animation.drive(tween),
+              child: child,
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 500),
+        );
       },
     );
   }
@@ -157,7 +177,11 @@ class _MyAppState extends State<MyApp> {
     return WelcomeScreen(
       onGetStarted: () {
         _markIntroAsSeen();
-        Navigator.pushNamedAndRemoveUntil(context, '/signup', (route) => false);
+        Navigator.pushNamedAndRemoveUntil(
+          context, 
+          '/signup?fromWelcome=true',  // Add a parameter to indicate source
+          (route) => false,
+        );
       },
       onSignIn: () {
         _markIntroAsSeen();
@@ -188,7 +212,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget _buildSignUpScreen(BuildContext context) {
+  Widget _buildSignUpScreen(BuildContext context, {bool showBackButton = true}) {
     return SignUpScreen(
       onSignUp: (email, password) {
         print('Attempting Sign Up: $email');
@@ -197,6 +221,7 @@ class _MyAppState extends State<MyApp> {
       onSignIn: () {
         Navigator.pushNamedAndRemoveUntil(context, '/signin', (route) => false);
       },
+      showBackButton: showBackButton,
     );
   }
 }

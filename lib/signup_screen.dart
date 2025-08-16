@@ -4,11 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 class SignUpScreen extends StatefulWidget {
   final Function(String email, String password) onSignUp;
   final VoidCallback onSignIn;
+  final bool showBackButton;
 
   const SignUpScreen({
     super.key,
     required this.onSignUp,
     required this.onSignIn,
+    this.showBackButton = true,
   });
 
   @override
@@ -95,10 +97,11 @@ class _SignUpScreenState extends State<SignUpScreen> with TickerProviderStateMix
         child: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: IconButton(
+          automaticallyImplyLeading: false,
+          leading: widget.showBackButton ? IconButton(
             icon: const Icon(Icons.arrow_back, color: Color(0xFF43B02A)),
             onPressed: () => Navigator.pop(context),
-          ),
+          ) : null,
         ),
       ),
       body: SafeArea(
