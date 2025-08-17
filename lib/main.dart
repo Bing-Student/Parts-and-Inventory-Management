@@ -3,10 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Import your screen files
-import 'intro_screen.dart';    // Page 1
-import 'welcome_screen.dart'; // Page 2
-import 'signup_screen.dart';   // Leads from Welcome or Sign In
-import 'signin_screen.dart';  // Page 3 (or direct entry if intro seen)
+import 'pages/onboarding/intro_screen.dart';    // Page 1
+import 'pages/onboarding/welcome_screen.dart'; // Page 2
+import 'pages/onboarding/signup_screen.dart';   // Leads from Welcome or Sign In
+import 'pages/onboarding/signin_screen.dart';  // Page 3 (or direct entry if intro seen)
 import 'dashboard_screen.dart'; // Page after successful sign-in
 
 // A key for SharedPreferences
@@ -98,7 +98,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
-
+      debugShowCheckedModeBanner: false,
       home: FutureBuilder<bool>(
         future: _userHasSeenIntroFuture,
         builder: (context, introSnapshot) {
