@@ -155,7 +155,7 @@ class _SignInScreenState extends State<SignInScreen> with TickerProviderStateMix
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
                         }
-                        if (!value.contains('@')) {
+                        if (!value.contains('@') || !value.contains('.')) {
                           return 'Please enter a valid email';
                         }
                         return null;

@@ -134,7 +134,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
                     width: double.infinity,
                     height: 55,
                     child: ElevatedButton(
-                      onPressed: widget.onGetStarted,
+                      onPressed: widget.onSignIn,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4CAF50),
                         shape: RoundedRectangleBorder(
@@ -172,17 +172,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
                 SlideTransition(
                   position: _slideAnimation,
                   child: GestureDetector(
-                    onTap: widget.onSignIn,
+                    onTap: widget.onGetStarted,
                     child: RichText(
                       text: TextSpan(
-                        text: 'Already have an account? ',
+                        text: "Don't have an account?",
                         style: GoogleFonts.urbanist(
                           color: Colors.grey[700],
                           fontSize: 16,
                         ),
                         children: [
                           TextSpan(
-                            text: 'Sign In.',
+                            text: 'Sign Up.',
                             style: GoogleFonts.urbanist(
                               color: const Color(0xFF2196F3),
                               fontWeight: FontWeight.w600,
